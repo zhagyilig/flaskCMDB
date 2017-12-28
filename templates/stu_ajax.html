@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stu | ajax</title>
+</head>
+<body>
+    <button id="test">getuser</button>
+    <p id="userlist">no user</p>
+
+    <script src="/static/js1/jquery.js"></script>
+    <script>
+        $('#test').on('click', function () {
+            $.get('/usermore',function (res) {
+                $('#userlist').html(res)   // .html(xx) 把页面中的内容替换为xx
+                alert(res)
+            })
+        })
+    </script>
+</body>
+</html>

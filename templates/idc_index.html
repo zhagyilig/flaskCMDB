@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>stu | idclist</title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr><td>id</td><td>idc_name</td></tr>
+        </thead>
+        <tbody id="idc_name"></tbody>
+    </table>
+
+    <script src="/static/js1/jquery.js"></script>
+    <script>
+        $.getJSON('/idc_list',function (res) {
+            var idc_str = ''
+            $.each(res,function (i,v) {
+                idc_str += '<tr>'
+                idc_str += '<td>'+v[0]+'</td>'
+                idc_str += '<td>'+v[1]+'</td>'
+                idc_str += '</tr>'
+            })
+            $('#idc_name').html(idc_str)
+        })
+    </script>
+</body>
+</html>

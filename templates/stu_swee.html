@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stu | swee</title>
+    <link rel="stylesheet" type="text/css" href="/static/js1/sweetalert.css">
+</head>
+<body>
+
+    <script src="/static/js1/sweetalert.min.js"></script>
+    <script>
+swal({
+    title: "确认删除吗",
+    text: "删除不可恢复",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "删除",
+    cancelButtonText:'取消',
+    closeOnConfirm: false
+},
+function() {
+    swal("删除成功", "文件已被删除", "success");
+});
+    </script>
+</body>
+</html>

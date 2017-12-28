@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stu | Progressbar</title>
+  <link rel="stylesheet" href="/static/js1/jquery-ui.css">
+  <link rel="stylesheet" href="/static/js1/bootstrap.js">
+</head>
+
+<body>
+    <div id="progressbar"></div>
+    <button id="pro1">增加</button>
+    <button id="pro2">结束</button>
+    <button id="pro3">禁用</button>
+
+
+    <script src="/static/js1/jquery-1.12.4.js"></script>
+    <script src="/static/js1/jquery-ui.js"></script>
+
+    <script>
+          $( function() {
+              var num = 0
+              $("#progressbar").progressbar({
+                value: num
+              });
+              $("#pro1").on("click",function () {
+                  num += 10
+                  $("#progressbar").progressbar("value",num);
+              })
+              $("#pro2").on("click",function () {
+                num -= 10
+                  $("#progressbar").progressbar("value",num);
+              })
+          } );
+    </script>
+</body>
+</html>
