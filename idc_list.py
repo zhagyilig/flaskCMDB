@@ -52,8 +52,13 @@ def pc():
 
 @ app.route('/pclist')
 def pclist():
-    cur.execute( 'select * from pc')  # 获取数据
-    res = cur.fetchall()
+    # update-btn
+    id = request.args.get('id') # 获取浏览器传参: id;获取单条信息
+    sql = 'select * from pc'
+    if id:
+        sql += ' where id=%s' %(id)
+    cur.execute(sql)
+    res = cur.fetchall() # 获取数据
     print(res)
     return json.dumps(res)
 

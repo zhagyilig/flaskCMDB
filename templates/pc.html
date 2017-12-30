@@ -6,9 +6,7 @@
     <link rel="stylesheet" href="/static/js1/bootstrap.min.css">
 </head>
 <body>
-
-
-
+    {#添加机器弹窗:#}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -55,29 +53,78 @@
           </div>
         </div>
 
-    <div class="container" style='margin-top:50px'>
-{#<button class="del-btn">删除#}
-    </button>
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-      添加机器
-    </button>
+    {#更新机器弹窗:#}
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">更新机器</h4>
+          </div>
+          <div class="modal-body">
 
-    <table class="table table-bordered table-hover table-striped table-condensed">
-        <thead><tr>
-                <th>id</th>
-                <th>ip</th>
-                <th>mem(/G)</th>
-                <th>idc_id</th>
-                <th>create_time</th>
-                <th>setting</th>
-            </tr></thead>
-        <tbody id="idc_table"></tbody></table>
+        <form class="form-horizontal" id='updatepc-form'>
+            <input type="hidden" name="id">  <!-- 存在表单里 -->
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">IP</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name='ip' >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">Mem</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name='mem'>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">idc</label>
+            <div class="col-sm-10">
+                <select class="form-control" name='idc_id'></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label" >create_time</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name='create_time' readonly>
+            </div>
+          </div>
+        </form>
+
+        </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" id="update-btn">更新</button></div>
+        </div>
+      </div>
     </div>
+
+    <div class="container" style='margin-top:50px'>
+    {#<button class="del-btn">删除</button>#}
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+            添加机器
+        </button>
+
+        <table class="table table-bordered table-hover table-striped table-condensed">
+            <thead><tr>
+                    <th>id</th>
+                    <th>ip</th>
+                    <th>mem(/G)</th>
+                    <th>idc_id</th>
+                    <th>create_time</th>
+                    <th>setting</th>
+                </tr>
+            </thead>
+            <tbody id="idc_table"></tbody>
+        </table>
+    </div>
+
     <script src="/static/js1/jquery.js"></script>
     <script src="/static/js1/bootstrap.js"></script>
-
     <script>
-        // 添加机器, 获取idc_ip下拉菜单
+        // 添加机器时,下拉菜单获取idc_id
         var addpc_form = $('#addpc-form')  // 表单输入的数据
         var addpc_idc = addpc_form.find('[name="idc_id"]') // 得到idc_id
 
@@ -88,9 +135,10 @@
                 option_str += '<option value="'+v[0]+'">'+v[1]+'</option>'
             })
             addpc_idc.html(option_str)
+            $('#updatepc-form').find('[name="idc_id"]').html(option_str)   // 更新机器时, 先渲染页面
         })
 
-        // 添加机器,插入数据
+        // 添加服务器信息
         $('#addpc-btn').on('click',function () {
             var form_str = addpc_form.serialize()
             $.post('/addpc',form_str,function (res) {
@@ -101,7 +149,7 @@
             })
         })
 
-        // 删除服务器
+        // 删除服务器信息
         $(document).on('click','.del-btn',function () {
             var id = $(this).attr('data-id')
             console.log(id)
@@ -109,11 +157,28 @@
                 init_page()
             })
         })
-        // 更新服务器
-        $(document).on('click','.upd-btn',function () {
 
+        // 更新服务器信息
+        $(document).on('click','.update-btn',function () {
+            // alert('1')   // 测试
+            $('#updateModal').modal('show')
+            // var id = $(this).attr('data-id')  //data-id是每个butten的一个属性,attr 自定义的属性
+            var id = $(this).data('id')  // 自定义属性是data开头, 和上一行用法相同
+            // alert(id) // 测试
+
+            $.getJSON('/pclist?id='+id,function (res) {
+                var data = res[0]
+                // console.log(data) // 浏览器console测试
+                var updateForm = $('#updatepc-form')
+
+                // 将值存进表单
+                updateForm.find('[name="ip"]').val(data[1])
+                updateForm.find('[name="mem"]').val(data[2])
+                updateForm.find('[name="idc"]').val(data[3])
+                updateForm.find('[name="create_time"]').val(data[4])
+
+            })  // 将值id传给后端
         })
-
 
         // 初始化表格, 刷新页面函数
         function init_page() {
@@ -127,7 +192,7 @@
                     idc_str += '<td>'+v[2]+'</td>'
                     idc_str += '<td>'+v[3]+'</td>'
                     idc_str += '<td>'+v[4]+'</td>'
-                    idc_str += '<td>'+'<button class="btn btn-danger btn-xs del-btn" data-id="'+v[0]+'">delete</button>'+'<button class="btn btn-info btn-xs upd-btn" data-id="'+v[0]+'">update</button>'+'</td>'
+                    idc_str += '<td>'+'<button class="btn btn-danger btn-xs del-btn" data-id="'+v[0]+'">delete</button>'+'<button style="margin-left: 3px" class="btn btn-info btn-xs update-btn" data-id="'+v[0]+'">update</button>'+'</td>'
                     idc_str += '</tr>'
                 })
                 $("#idc_table").html(idc_str)
@@ -135,5 +200,5 @@
         }
         init_page()
     </script>
-    </body>
+</body>
 </html>
