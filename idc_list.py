@@ -26,7 +26,7 @@ app = Flask(__name__)
 def index():
     return render_template('idc_index.html')
 
-## app ==> idc
+## app: idc
 # 显示idc地域分布
 @app.route('/idc_list')
 def idc_list():
@@ -45,15 +45,16 @@ def addidc():
     return 'ok'
 
 
-## app ==> pc
+## app：pc
 @app.route('/pc')
 def pc():
-    return render_template('/pc.html')
+    return render_template('pc.html')
 
 @ app.route('/pclist')
 def pclist():
-    cur.execute( 'select * from pc')
+    cur.execute( 'select * from pc')  # 获取数据
     res = cur.fetchall()
+    print(res)
     return json.dumps(res)
 
 # 添加服务器信息
@@ -63,8 +64,19 @@ def addpc():
     mem = request.form.get('mem')
     idc_id = request.form.get('idc_id')
     create_time = request.form.get('create_time')
-    sql = 'insert into pc(ip,mem,idc_id) values("%s",%s,%s)' %(ip,mem,idc_id)
+    sql = 'insert into pc(ip,mem,idc_id,create_time) values("%s",%s,%s,"%s")' %(ip,mem,idc_id,create_time)
     print('*'*100)
+    print(sql)
+    cur.execute(sql)
+    return 'ok'
+
+# 删除服务器信息
+@app.route('/delpc',methods=['post'])
+def delpc():
+    id = request.form.get('id')
+    if not id:
+        return 'error'
+    sql = 'delete from pc where id=%s' %(id)
     print(sql)
     cur.execute(sql)
     return 'ok'
