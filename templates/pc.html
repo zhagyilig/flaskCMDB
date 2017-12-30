@@ -66,7 +66,7 @@
           <div class="modal-body">
 
         <form class="form-horizontal" id='updatepc-form'>
-            <input type="hidden" name="id">  <!-- 存在表单里 -->
+          <input type="hidden" name="id">  <!-- 存在表单里,Hidden 对象代表一个 HTML 表单中的某个隐藏输入域-->
           <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">IP</label>
             <div class="col-sm-10">
@@ -96,7 +96,7 @@
         </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" id="update-btn">更新</button></div>
+                <button type="button" class="btn btn-success" id="updatepc-btn">更新</button></div>
         </div>
       </div>
     </div>
@@ -161,7 +161,7 @@
         // 更新服务器信息
         $(document).on('click','.update-btn',function () {
             // alert('1')   // 测试
-            $('#updateModal').modal('show')
+            $('#updateModal').modal('show')  // 打开一个模态对话框
             // var id = $(this).attr('data-id')  //data-id是每个butten的一个属性,attr 自定义的属性
             var id = $(this).data('id')  // 自定义属性是data开头, 和上一行用法相同
             // alert(id) // 测试
@@ -172,12 +172,25 @@
                 var updateForm = $('#updatepc-form')
 
                 // 将值存进表单
+                updateForm.find('[name="id"]').val(data[0])
                 updateForm.find('[name="ip"]').val(data[1])
                 updateForm.find('[name="mem"]').val(data[2])
-                updateForm.find('[name="idc"]').val(data[3])
+                updateForm.find('[name="idc_id"]').val(data[3])
                 updateForm.find('[name="create_time"]').val(data[4])
 
             })  // 将值id传给后端
+        })
+
+        // 提交要更新的数据
+        $('#updatepc-btn').on('click',function () {
+            var form_str = $('#updatepc-form').serialize() // 序列化
+            // console.log(form_str) // 测试
+            $.post('/updatepc',form_str,function (res) {
+                if(res == 'ok'){
+                    $('#updateModal').modal('hide')  // 隐藏一个模态对话框,功能:点击"更新"就隐藏模态框
+                    init_page()  // 重新获取表单
+            }
+            })
         })
 
         // 初始化表格, 刷新页面函数

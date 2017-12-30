@@ -50,6 +50,7 @@ def addidc():
 def pc():
     return render_template('pc.html')
 
+# 服务器列表
 @ app.route('/pclist')
 def pclist():
     # update-btn
@@ -59,7 +60,7 @@ def pclist():
         sql += ' where id=%s' %(id)
     cur.execute(sql)
     res = cur.fetchall() # 获取数据
-    print(res)
+    # print(res)
     return json.dumps(res)
 
 # 添加服务器信息
@@ -82,6 +83,20 @@ def delpc():
     if not id:
         return 'error'
     sql = 'delete from pc where id=%s' %(id)
+    print(sql)
+    cur.execute(sql)
+    return 'ok'
+
+# 更新服务器信息
+@app.route('/updatepc',methods=['post'])
+def updatepc():
+    pc_id = request.form.get('id')
+    ip = request.form.get('ip')
+    mem = request.form.get('mem')
+    idc_id = request.form.get('idc_id')
+    create_time = request.form.get('create_time')
+    print(request.form)  # ImmutableMultiDict()
+    sql = 'update pc set ip="%s",mem=%s,idc_id=%s where id=%s' %(ip,mem,idc_id,pc_id)
     print(sql)
     cur.execute(sql)
     return 'ok'
