@@ -5,6 +5,10 @@
     <title>stu | idclist</title>
 </head>
 <body>
+    <form id="addidc-form">
+        <input type="text" name="name">
+        <input type="submit" name="add">
+    </form>
     <table border="1">
         <thead>
             <tr><td>id</td><td>idc_name</td></tr>
@@ -14,16 +18,32 @@
 
     <script src="/static/js1/jquery.js"></script>
     <script>
-        $.getJSON('/idc_list',function (res) {
-            var idc_str = ''
-            $.each(res,function (i,v) {
-                idc_str += '<tr>'
-                idc_str += '<td>'+v[0]+'</td>'
-                idc_str += '<td>'+v[1]+'</td>'
-                idc_str += '</tr>'
+        // 添加idc
+        $('#addidc-form').on('submit',function () {
+            // var idcname = $('#addidc-form').find('[name="name"]').val()  // val()返回或设置被选元素的值
+            var idcname = $('#addidc-form').find('[name="name"]')
+            alert(idcname)
+            $.post('/add_idc',{name:idcname.val()},function () {
+                init_page()  // 添加idc之后,自动刷新页面,显示idc_list
+                idcname.val('')
             })
-            $('#idc_name').html(idc_str)
+            return false
         })
+        
+        function init_page() {
+            // 异步获取idc列表
+            $.getJSON('/idc_list',function (res) {
+                var idc_str = ''
+                $.each(res,function (i,v) {
+                    idc_str += '<tr>'
+                    idc_str += '<td>'+v[0]+'</td>'
+                    idc_str += '<td>'+v[1]+'</td>'
+                    idc_str += '</tr>'
+                })
+                $('#idc_name').html(idc_str)
+            })
+        }
+        init_page()
     </script>
 </body>
 </html>

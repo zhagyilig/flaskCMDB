@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>pc | list</title>
+    <link rel="stylesheet" href="/static/js1/bootstrap.min.css">
+</head>
+<body>
+    <div class="container" style="margin-top: 50px"></div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead><tr>
+                    <td>id</td>
+                    <td>mem</td>
+                    <td>idc_id</td>
+                    <td>create_time</td>
+                </tr></thead><tbody id="idc_table"></tbody></table>
+
+    <script src="/static/js1/jquery.js"></script>
+    <script src="/static/js1/bootstrap.js"></script>
+    <script>
+
+        function init_page() {
+            $.getJSON('/pclist',function (res) {
+                // console.log(res)
+                var idc_str = ''
+                $.each(res, function (i, v) {
+                    idc_str += '<tr>'
+                    idc_str += '<td>'+v[0]+'</td>'
+                    idc_str += '<td>'+v[1]+'</td>'
+                    idc_str += '<td>'+v[2]+'</td>'
+                    idc_str += '<td>'+v[3]+'</td>'
+                    idc_str += '</tr>'
+                })
+                $("#idc_table").html(idc_str)
+            })
+        }
+    </script>
+</body>
+
+</html>
