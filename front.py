@@ -1,9 +1,11 @@
 # coding=utf-8
 
 # 系统模块:
-from flask import Flask, request, render_template, redirect, session
+from flask import Flask, request, render_template, redirect, session, g, url_for
+from functools import wraps
 import MySQLdb as mysql
 import json
+
 
 
 conn= mysql.connect(    # 连接MySQL
@@ -21,6 +23,15 @@ conn.autocommit(True)
 # print(cur.fetchall())
 
 app = Flask(__name__)
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @app.context_processor
 def inject_user():
