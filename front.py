@@ -22,9 +22,19 @@ conn.autocommit(True)
 
 app = Flask(__name__)
 
+@app.context_processor
+def inject_user():
+    return {'username':'zhangyiling'}
+
+
+
 @app.route('/')
 def index():
     return render_template('idc_index.html')
+
+@app.route('/login')
+def login():
+    return render_template('login01.html')
 
 ## app: idc
 # 显示idc地域分布
@@ -48,7 +58,7 @@ def addidc():
 ## app: pc
 @app.route('/pc')
 def pc():
-    return render_template('pc.html')
+    return render_template('stu_b.html')
 
 # 服务器列表
 @ app.route('/pclist')

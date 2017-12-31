@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <style>
+        .nav-action{
+            color: red;
+            background: yellow;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>头部</div>
+    <a href="/a">page a</a>
+    <a href="/b">page b</a>
+    <br>
+    {% block body %}
+    {% endblock body %}
+    <div>脚注</div>
+    <script src="/static/js1/jquery.js"></script>
+    <script>
+        var path = location.pathname
+        $('[href="'+path+'"]').addClass(nav-action)
+    </script>
+</body>
+</html>

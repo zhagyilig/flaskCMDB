@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>pc | list</title>
-    <link rel="stylesheet" href="/static/js1/bootstrap.min.css">
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block body %}
     {#添加机器弹窗:#}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -103,7 +98,7 @@
 
     <div class="container" style='margin-top:10px;margin-left: -20px'>
     {#<button class="del-btn">删除</button>#}
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
             添加机器
         </button>
 
@@ -213,5 +208,4 @@
         }
         init_page()
     </script>
-</body>
-</html>
+{% endblock %}
