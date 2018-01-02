@@ -3,6 +3,7 @@
 # 系统模块:
 from flask import Flask, request, render_template, redirect, session
 import MySQLdb as mysql
+import json
 
 # 自定模块:
 import mem
@@ -154,6 +155,33 @@ def stu_ajax():
 @app.route('/usermore')
 def usermore():
     return "zhangyiling  python."
+
+
+# Echartr
+@app.route('/stu_echarts')
+def stu_echarts():
+    return render_template('stu_echarts_pie.html')
+
+@app.route('/pie')
+def pie():
+    sql = 'select status,sum(count) from log group by status;'
+    cur.execute(sql)
+    #print(cur.fetchall())
+    # return 'page ok'
+    res = {
+        'legend':[],
+        'data':[],
+    }
+    for c in cur.fetchall():
+        code = c[0]
+        count = int(c[1])
+        res['legend'].append(code)
+        res['data'].append({
+            'name':code,
+            'value':count,
+        })
+    return json.dumps(res)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=8888,debug=True)
