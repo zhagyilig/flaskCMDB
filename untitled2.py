@@ -157,7 +157,8 @@ def usermore():
     return "zhangyiling  python."
 
 
-# Echartr
+## Echartr
+# 饼图
 @app.route('/stu_echarts')
 def stu_echarts():
     return render_template('stu_echarts_pie.html')
@@ -182,6 +183,10 @@ def pie():
         })
     return json.dumps(res)
 
+# 柱状图
+@app.route('/stu_echarts_clo')
+def stu_echarts_clo():
+    return render_template('stu_echart_clo.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=8888,debug=True)

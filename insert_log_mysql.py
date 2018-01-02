@@ -26,9 +26,11 @@ with open('nginx.log') as f:
         if line == '\n':
             continue
         arr = line.split(' ')
-        ip = arr[0]
-        status = arr[8]
-        res[(ip,status)] = res.get((ip, status),0) + 1
+        ip = arr[0]   # 来源ip
+        status = arr[8]  # http 状态码
+        res[(ip,status)] = res.get((ip, status),0) + 1  # ip 状态码聚合
 
+# 插入log信息到MySQL
 for l in sorted(res.items(),key=lambda x:x[1],reverse=True):
-    cur.execute("insert into log(ip,status,count) values('%s','%s','%s')" %(l[0][0],l[0][1],l[1]))
+    sql = "insert into log(ip,status,count) values('%s','%s','%s') %(l[0][0],l[0][1],l[1])"
+    cur.execute(sql)

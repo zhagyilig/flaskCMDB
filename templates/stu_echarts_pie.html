@@ -15,42 +15,44 @@
         var myChart = echarts.init(document.getElementById('main'));
 
         // 指定图表的配置项和数据
-        var option = {
-    title : {
-        text: '博客访问来源',
-        //subtext: '纯属虚构',
-        x:'center'
-    },
-    tooltip : {
-        trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'left',
-        //date:''
-    },
-    series : [
-        {
-            name: '访问来源',
-            type: 'pie',
-            radius : '55%',
-            center: ['50%', '60%'],
-            // data:[]
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+    var option = {
+        title : {   // 图标
+            text: '博客访问来源',
+            //subtext: '纯属虚构',
+            x:'center'
+        },
+        tooltip : {  // 鼠标悬停显示的信息
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: { // 图例
+            orient: 'vertical',
+            left: 'left',
+            //date:''   数据由下面的代码插入
+        },
+        series : [  //数据
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                // data:[]   数据由下面代码插入
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 }
             }
-        }
-    ]
-};
+        ]
+    };
+
         $.getJSON('/pie',function (res) {
             option.legend.data = res.legend
             option.series[0].data = res.data
-            // 使用刚指定的配置项和数据显示图表。
+
+            // 使用刚指定的配置项和数据显示图表
             myChart.setOption(option);
         })
     </script>
