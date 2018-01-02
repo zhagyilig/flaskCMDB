@@ -32,12 +32,13 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
 @app.context_processor
 def inject_user():
     return {'username':'zhangyiling'}
 
-
+@app.route('/contact_admin')
+def contact_admin():
+    return render_template('/contact_admin.html')
 
 @app.route('/')
 def index():
@@ -54,6 +55,7 @@ def idc_list():
     cur.execute('select * from idc_list')
     res = cur.fetchall()
     return json.dumps(res)
+
 
 # 添加idc功能
 @app.route('/add_idc',methods=['post'])

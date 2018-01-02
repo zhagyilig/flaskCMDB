@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form class="cmxform" id="commentForm" method="get" action="">
+      <fieldset>
+        <legend>Please provide your name, email address</legend>
+        <p>
+          <label for="cname">Name</label>
+          <input id="cname" name="name" minlength="2" maxlength="6" type="text" required>
+        </p>
+        <p>
+          <label for="cemail">E-Mail</label>
+          <input id="cemail" type="email" name="email" required>
+        </p>
+        <p>
+          <label for="curl">URL</label>
+          <input id="curl" type="url" name="url">
+        </p>
+        <p>
+          <label for="ccomment">Your comment (required)</label>
+          <textarea id="ccomment" name="comment" required></textarea>
+        </p>
+        <p>
+          <input class="submit" type="submit" value="Submit">
+        </p>
+      </fieldset>
+    </form>
+
+    <script src="/static/js1/jquery.js"></script>
+    <script src="/static/js1/jquery.validate.min.js"></script>
+
+    <script>
+    $("#commentForm").validate();
+    </script>
+
+</body>
+</html>
