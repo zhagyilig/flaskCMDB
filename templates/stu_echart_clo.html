@@ -19,7 +19,9 @@
     title: {
         text: '博客访问来源'
     },
-    tooltip: {},
+    tooltip: {
+        trigger:'axis'  // 鼠标滑过
+    },
     legend: {
         data:['访问量']
     },
@@ -37,7 +39,13 @@
         $.getJSON('/pie',function (res) {
             option.xAxis.data = res.legend
             option.series[0].data = res.data
-
+            /**
+            bar_data = []
+            $.each(res.data, function (i,v) {
+                bar_data.push(v,value)
+            })
+            option.series[0].data = bar_data
+             **/
             // 使用刚指定的配置项和数据显示图表
             myChart.setOption(option);
         })
