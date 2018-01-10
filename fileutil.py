@@ -21,4 +21,5 @@ def wirte_file():
     for user,pwd in list(file_dict.items()):
         file_arr.append('%s:%s' %(user,pwd))
     with open('user.txt','w',encoding='utf-8') as f:
-        f.write('\n'.join(file_arr))
+        f.write('\n'.join(file_arr))  
+        
