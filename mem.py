@@ -21,4 +21,4 @@ def mem_get():
     return html_str
 
 # with open("mem_info.html",'w') as f:
-#     f.write(html_str)
+#     f.write(html_str)  
